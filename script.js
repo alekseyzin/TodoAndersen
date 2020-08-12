@@ -45,8 +45,9 @@ function toggleModal () {
 }
 
 addTodo.onkeydown = (e) => {
-    const specialSymbols = ["/", "<", ">"]
-    if (specialSymbols.includes(e.key)) return false
+    // const specialSymbols = ["/", "<", ">"]
+    var regex = new RegExp("^(?=.*[A-Za-z0-9])[A-Za-z0-9 _]*$");
+    if (!regex.test(e.key)) return false
     if (e.key === "Enter") {
         const todoItemText = addTodo.value
         Todo.add(todoItemText)
