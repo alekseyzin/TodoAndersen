@@ -1,0 +1,116 @@
+/* reset start */
+h1, ul, li {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+ul {
+	list-style: none;
+}
+/* reset end */
+
+.todo-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo {
+    border: 1px solid grey;
+    border-radius: 2px;
+    padding: 20px;
+    margin-top: 40px;
+    min-width: 500px;
+    background-color: white;
+}
+
+.todo h1 {
+    text-align: center;
+    margin: 10px 0 20px 0;
+    font-size: 26px;
+    color: blue;
+}
+
+.todo-list li {
+    border: 1px solid grey;
+    background-color: #434ace5c;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}
+
+.todo-list li .todo-text {
+    display: inline-block;
+    background-color: grey;
+    padding: 5px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.todo-list li .data-holder {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-add-holder {
+    display: flex;
+    justify-content: center;
+    
+}
+
+/* Modal */
+
+.modal-holder {
+    display: none;
+    position: fixed;
+    overflow: auto;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-holder.open {
+    display: block;
+}
+
+.modal-holder .modal-input {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 2px;
+    min-width: 500px;
+}
+
+.modal-text-holder {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.modal-text-holder input {
+    width: 90%;
+}
+
+.modal-input input {
+    margin-left: 5px;
+}
+
+.modal-buttons-holder {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.modal-buttons-holder button:first-child {
+    margin-right: 10px;
+}
+
+.invalid {
+    /*border: red 1px solid;*/
+    background-color: red;
+}
