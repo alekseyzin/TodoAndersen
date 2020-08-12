@@ -109,3 +109,8 @@ ul {
 .modal-buttons-holder button:first-child {
     margin-right: 10px;
 }
+
+.invalid {
+    /*border: red 1px solid;*/
+    background-color: red;
+}

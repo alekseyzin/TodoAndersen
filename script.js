@@ -1,67 +1,47 @@
-class Todo {
+import {Todo} from "./model.js";
 
-    static todoToHTML (todoItemText, dateCreate, dateEnd) {
-        const todoListBlock = document.querySelector('.todo-list')
-        const li = document.createElement('li')
-        li.innerHTML = `
-            <span class="todo-text">${todoItemText}</span>
-            <div class="data-holder">
-                <span>Start: ${dateCreate}</span>
-                <span>Finish: ${dateEnd}</span>
-            </div>
-        `
-        todoListBlock.appendChild(li)
-    }
-
-    static add (todoItemText) {
-        if (todoItemText.trim().length > 0) {
-            const dateNow = new Date()
-            const dateCreate = dateNow.toLocaleDateString()
-            const dateClone = new Date(dateNow)
-            const dateEnd = new Date(dateClone.setDate(dateNow.getDate() + 1)).toLocaleDateString()
-            Todo.todoToHTML(todoItemText, dateCreate, dateEnd)
-        }
-    }
-
-    static addTodoWithOptions (todoItemText, dateCreate, dateEnd) {
-        const todoItemTextVal = todoItemText.value
-        const dateCreateVal = dateCreate.value
-        const dateEndVal = dateEnd.value
-        const timeForTodo = new Date(dateEndVal) - new Date(dateCreateVal);
-        if ((!dateCreateVal || !dateEndVal) || timeForTodo <= 0 || todoItemTextVal.trim.length < 0) {
-            return false
-        }
-        Todo.todoToHTML(todoItemTextVal, dateCreateVal, dateEndVal)
-        todoItemText.value = ''
-        dateCreate.value = ''
-        dateEnd.value = ''
-        return true
-    }
-}
+const todo = new Todo()
 
 function toggleModal () {
     const modal = document.querySelector(".modal-holder")
     modal.classList.toggle('open')
 }
 
-addTodo.onkeydown = (e) => {
-    // const specialSymbols = ["/", "<", ">"]
+function  saveModalData () {
+    const validation = todo.isAddTodoWithOptions(modalInputText, modalInputStartDate, modalInputEndDate)
+    if (validation) toggleModal()
+}
+
+function closeModalWhenPressEscape (e) {
+    if (e.key === "Escape") {
+        const modal = document.querySelector(".modal-holder")
+        modal.classList.remove('open')
+    }
+}
+
+function hasNotSpecialSymbols (e) {
     var regex = new RegExp("^(?=.*[A-Za-z0-9])[A-Za-z0-9 _]*$");
-    if (!regex.test(e.key)) return false
+    if (!regex.test(e.key)) {
+        e.preventDefault()
+        return false
+    }
+}
+
+function sendTodoDataWhenPressEnter (e) {
     if (e.key === "Enter") {
-        const todoItemText = addTodo.value
-        Todo.add(todoItemText)
+        todo.addTodoItem(addTodo)
         addTodo.value = ''
     }
 }
 
-openModalInput.onclick = toggleModal
-closeModal.onclick = toggleModal
+addTodo.addEventListener('keydown', hasNotSpecialSymbols)
+addTodo.addEventListener('keydown', sendTodoDataWhenPressEnter)
+modalInputText.addEventListener('keydown', hasNotSpecialSymbols)
+document.addEventListener('keydown', closeModalWhenPressEscape)
+openModalButton.addEventListener('click', toggleModal)
+closeModal.addEventListener('click', toggleModal)
+saveModal.addEventListener('click', saveModalData)
 
-saveModal.onclick = () => {
-    const validation = Todo.addTodoWithOptions(modalInputText, modalInputStartDate, modalInputEndDate)
-    if (validation) toggleModal()
-}
 
 
 
