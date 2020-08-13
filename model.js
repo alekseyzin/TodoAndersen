@@ -1,98 +1,118 @@
 export class Todo {
 
-    isTodoInputValid (todoItemText) {
-        const todoItemTextVal = todoItemText.value
-        if (todoItemTextVal.trim().length <= 0) {
-            todoItemText.classList.add('invalid')
-            return false
-        } else {
-            todoItemText.classList.remove('invalid')
-            return true
-        }
+    isDataEmpty(dateInput) {
+        return !dateInput.value
     }
 
-    isFormModalValid (todoItemText, dateCreate, dateEnd) {
-        const [todoItemTextVal, dateCreateVal, dateEndVal] = [todoItemText.value, dateCreate.value, dateEnd.value]
-        const timeForTodo = new Date(dateEndVal) - new Date(dateCreateVal);
+    isDataPeriodInvalid(startDateInput, endDateInput) {
+        const timeForTodo = new Date(endDateInput.value) - new Date(startDateInput.value)
 
-        let isError = false
-        if (!dateCreateVal) {
-            dateCreate.classList.add('invalid')
-            isError = true
-        } else {
-            dateCreate.classList.remove('invalid')
-        }
+        return timeForTodo <= 0
+    }
 
-        if (!dateEndVal) {
-            dateEnd.classList.add('invalid')
-            isError = true
-        } else {
-            dateEnd.classList.remove('invalid')
-        }
+    isTodoInputEmpty(todoInput) {
+        return !todoInput.value.trim().length
+    }
 
-        if (!isError) {
-            if (!timeForTodo || timeForTodo <= 0) {
-                dateEnd.classList.add('invalid')
-                dateCreate.classList.add('invalid')
-                isError = true
+    highlightingForInputs(isError, ...elems) {
+        elems.forEach(element => {
+
+            if (isError) {
+                element.classList.add('invalid')
             } else {
-                dateCreate.classList.remove('invalid')
-                dateEnd.classList.remove('invalid')
+                element.classList.remove('invalid')
             }
-        }
-
-        if (todoItemTextVal.trim().length <= 0) {
-            todoItemText.classList.add('invalid')
-            isError = true
-        } else {
-            todoItemText.classList.remove('invalid')
-        }
-
-        return isError ? false : true
+        })
     }
 
-    todoToHTML (todoItemText, dateCreate, dateEnd) {
+    isFormModalValid({todoInput, startDateInput, endDateInput}) {
+        const errors = {}
+
+        errors.isStartDataEmpty = this.isDataEmpty(startDateInput)
+        this.highlightingForInputs(errors.isStartDataEmpty, startDateInput)
+
+        errors.isEndDataEmpty = this.isDataEmpty(endDateInput)
+        this.highlightingForInputs(errors.isEndDataEmpty, endDateInput)
+
+        if (!Object.values(errors).includes(true)) {
+            errors.isDataPeriodInvalid = this.isDataPeriodInvalid(startDateInput, endDateInput)
+            this.highlightingForInputs(errors.isDataPeriodInvalid, startDateInput, endDateInput)
+        }
+
+        errors.isTodoInputEmpty = this.isTodoInputEmpty(todoInput)
+        this.highlightingForInputs(errors.isTodoInputEmpty, todoInput)
+
+        return !Object.values(errors).includes(true)
+    }
+
+    formatDate(date) {
+        return date.split("-").reverse().join(".")
+    }
+
+    todoToHTML({todoInputVal, startDateInputVal, endDateInputVal}) {
         const todoListBlock = document.querySelector('.todo-list')
         const li = document.createElement('li')
+
         li.innerHTML = `
-            <span class="todo-text">${todoItemText}</span>
-            <div class="data-holder">
-                <span>Start: ${dateCreate}</span>
-                <span>Finish: ${dateEnd}</span>
+            <input type="checkbox">
+            <div class="todo-content-holder">
+                <span class="todo-text">${todoInputVal}</span>
+                <div class="data-holder">
+                    <span>Start: ${startDateInputVal}</span>
+                    <span>Finish: ${endDateInputVal}</span>
+                </div>
             </div>
         `
         todoListBlock.appendChild(li)
     }
 
-    getDateObject () {
-        const dateNow = new Date()
-        const dateCreate = dateNow.toLocaleDateString()
-        const dateClone = new Date(dateNow)
-        const dateEnd = new Date(dateClone.setDate(dateNow.getDate() + 1)).toLocaleDateString()
-        return {dateCreate, dateEnd}
-    }
+    getDateObject() {
 
-    addTodoItem (todoItemText) {
-        const todoItemTextVal = todoItemText.value
-        if (this.isTodoInputValid (todoItemText)) {
-            const {dateCreate, dateEnd} = this.getDateObject()
-            this.todoToHTML(todoItemTextVal, dateCreate, dateEnd)
+        return {
+            dateCreate: new Date().toLocaleDateString(),
+            dateEnd: new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()
         }
     }
 
-    isAddTodoWithOptions (todoItemText, dateCreate, dateEnd) {
-        let [todoItemTextVal, dateCreateVal, dateEndVal] = [todoItemText.value, dateCreate.value, dateEnd.value]
-        dateCreateVal = dateCreateVal.split("-").reverse().join(".")
-        dateEndVal = dateEndVal.split("-").reverse().join(".")
-        if (this.isFormModalValid (todoItemText, dateCreate, dateEnd)) {
-            this.todoToHTML(todoItemTextVal, dateCreateVal, dateEndVal)
-            todoItemText.value = ''
-            dateCreate.value = ''
-            dateEnd.value = ''
-            return true
-        } else {
-            return false
-        }
+    addTodoItem(todoInput) {
+        const todoInputVal = todoInput.value
+        const isTodoInputEmpty = this.isTodoInputEmpty(todoInput)
 
+        this.highlightingForInputs(isTodoInputEmpty, todoInput)
+
+        if (!isTodoInputEmpty) {
+            const {startDateInputVal, endDateInputVal} = this.getDateObject()
+            const modalData = {todoInputVal, startDateInputVal, endDateInputVal}
+
+            this.todoToHTML(modalData)
+        }
     }
+
+    addTodoWithOptions({todoInput, startDateInput, endDateInput}) {
+        let [
+            todoInputVal,
+            startDateInputVal,
+            endDateInputVal
+        ] = [todoInput.value, startDateInput.value, endDateInput.value]
+
+        startDateInputVal = this.formatDate(startDateInputVal)
+        endDateInputVal = this.formatDate(endDateInputVal)
+
+        const modalData = {todoInputVal, startDateInputVal, endDateInputVal}
+
+        this.todoToHTML(modalData)
+        todoInput.value = ''
+        startDateInput.value = ''
+        endDateInput.value = ''
+    }
+
+    findAndMarkTodo(e) {
+
+        if (e.target.type === "checkbox") {
+            const textBlock = e.target.parentElement.querySelector('.todo-text')
+
+            textBlock.classList.toggle('mark')
+        }
+    }
+
 }

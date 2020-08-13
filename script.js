@@ -2,32 +2,53 @@ import {Todo} from "./model.js";
 
 const todo = new Todo()
 
-function toggleModal () {
+function deleteHighlightingModalInputs() {
+    modalInputText.classList.remove('invalid')
+    modalInputStartDate.classList.remove('invalid')
+    modalInputEndDate.classList.remove('invalid')
+}
+
+function toggleModal() {
     const modal = document.querySelector(".modal-holder")
+
     modal.classList.toggle('open')
+    deleteHighlightingModalInputs()
 }
 
-function  saveModalData () {
-    const validation = todo.isAddTodoWithOptions(modalInputText, modalInputStartDate, modalInputEndDate)
-    if (validation) toggleModal()
+function saveModalData() {
+    const modalData = {
+        todoInput: modalInputText,
+        startDateInput: modalInputStartDate,
+        endDateInput: modalInputEndDate
+    }
+
+    if (todo.isFormModalValid(modalData)) {
+        todo.addTodoWithOptions(modalData)
+
+        toggleModal()
+    }
 }
 
-function closeModalWhenPressEscape (e) {
+function closeModalWhenPressEscape(e) {
+
     if (e.key === "Escape") {
         const modal = document.querySelector(".modal-holder")
+
         modal.classList.remove('open')
+        deleteHighlightingModalInputs()
     }
 }
 
-function hasNotSpecialSymbols (e) {
-    var regex = new RegExp("^(?=.*[A-Za-z0-9])[A-Za-z0-9 _]*$");
+function hasNotSpecialSymbols(e) {
+    const regex = new RegExp(/[\w\s]/);
+
     if (!regex.test(e.key)) {
         e.preventDefault()
-        return false
     }
 }
 
-function sendTodoDataWhenPressEnter (e) {
+function sendTodoDataWhenPressEnter(e) {
+
     if (e.key === "Enter") {
         todo.addTodoItem(addTodo)
         addTodo.value = ''
@@ -41,8 +62,4 @@ document.addEventListener('keydown', closeModalWhenPressEscape)
 openModalButton.addEventListener('click', toggleModal)
 closeModal.addEventListener('click', toggleModal)
 saveModal.addEventListener('click', saveModalData)
-
-
-
-
-
+todoList.addEventListener('click', todo.findAndMarkTodo)
