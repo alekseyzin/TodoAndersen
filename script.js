@@ -15,16 +15,18 @@ function toggleModal() {
     deleteHighlightingModalInputs()
 }
 
-// todoInput, startDateInput, endDateInput
 function saveModalData() {
     const modalData = {
         todoInput: modalInputText,
         startDateInput: modalInputStartDate,
         endDateInput: modalInputEndDate
     }
-    const validation = todo.isAddTodoWithOptions(modalData)
 
-    if (validation) toggleModal()
+    if (todo.isFormModalValid(modalData)) {
+        todo.addTodoWithOptions(modalData)
+
+        toggleModal()
+    }
 }
 
 function closeModalWhenPressEscape(e) {
