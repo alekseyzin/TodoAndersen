@@ -58,6 +58,10 @@ ul {
     justify-content: space-between;
 }
 
+.todo-list li .todo-content-holder {
+    width: 100%;
+}
+
 .todo-add-holder {
     display: flex;
     justify-content: center;
@@ -121,6 +125,6 @@ ul {
 }
 
 .invalid {
-    /*border: red 1px solid;*/
-    background-color: red;
+    border: red 1px solid;
+    background-color: #ff00003d;
 }
