@@ -14,7 +14,7 @@ export class Todo {
         return !todoInput.value.trim().length
     }
 
-    toggleErrorHighlightingForInputs(isError, ...elems) {
+    highlightingForInputs(isError, ...elems) {
         elems.forEach(element => {
 
             if (isError) {
@@ -29,18 +29,18 @@ export class Todo {
         const errors = {}
 
         errors.isStartDataEmpty = this.isDataEmpty(startDateInput)
-        this.toggleErrorHighlightingForInputs(errors.isStartDataEmpty, startDateInput)
+        this.highlightingForInputs(errors.isStartDataEmpty, startDateInput)
 
         errors.isEndDataEmpty = this.isDataEmpty(endDateInput)
-        this.toggleErrorHighlightingForInputs(errors.isEndDataEmpty, endDateInput)
+        this.highlightingForInputs(errors.isEndDataEmpty, endDateInput)
 
         if (!Object.values(errors).includes(true)) {
             errors.isDataPeriodInvalid = this.isDataPeriodInvalid(startDateInput, endDateInput)
-            this.toggleErrorHighlightingForInputs(errors.isDataPeriodInvalid, startDateInput, endDateInput)
+            this.highlightingForInputs(errors.isDataPeriodInvalid, startDateInput, endDateInput)
         }
 
         errors.isTodoInputEmpty = this.isTodoInputEmpty(todoInput)
-        this.toggleErrorHighlightingForInputs(errors.isTodoInputEmpty, todoInput)
+        this.highlightingForInputs(errors.isTodoInputEmpty, todoInput)
 
         return !Object.values(errors).includes(true)
     }
@@ -78,7 +78,7 @@ export class Todo {
         const todoInputVal = todoInput.value
         const isTodoInputEmpty = this.isTodoInputEmpty(todoInput)
 
-        this.toggleErrorHighlightingForInputs(isTodoInputEmpty, todoInput)
+        this.highlightingForInputs(isTodoInputEmpty, todoInput)
 
         if (!isTodoInputEmpty) {
             const {startDateInputVal, endDateInputVal} = this.getDateObject()
