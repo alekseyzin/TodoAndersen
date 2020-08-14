@@ -1,4 +1,7 @@
 export class Todo {
+    constructor() {
+        this.setTodoItemTextToEditModal = this.setTodoItemTextToEditModal.bind(this)
+    }
 
     isDataEmpty(dateInput) {
         return !dateInput.value
@@ -52,6 +55,7 @@ export class Todo {
     todoToHTML({todoInputVal, startDateInputVal, endDateInputVal}) {
         const todoListBlock = document.querySelector('.todo-list')
         const li = document.createElement('li')
+        li.classList.add('todo-item')
 
         li.innerHTML = `
             <input type="checkbox">
@@ -62,6 +66,10 @@ export class Todo {
                     <span>Finish: ${endDateInputVal}</span>
                 </div>
             </div>
+            <div class="buttons-holder">
+                <button class="delete-todo" name="delete"></button>
+                <button id="openEditModal" class="edit-todo far fa-edit" name="edit"></button>
+            </div>
         `
         todoListBlock.appendChild(li)
     }
@@ -69,8 +77,8 @@ export class Todo {
     getDateObject() {
 
         return {
-            dateCreate: new Date().toLocaleDateString(),
-            dateEnd: new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()
+            startDateInputVal: new Date().toLocaleDateString(),
+            endDateInputVal: new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()
         }
     }
 
@@ -115,4 +123,41 @@ export class Todo {
         }
     }
 
+    deleteTodoItem(e) {
+
+        if (e.target.name === "delete") {
+            e.target.closest('.todo-item').remove()
+        }
+    }
+
+    toggleEditModal() {
+        const modal = document.querySelector(".edit-modal-holder")
+
+        editModalSave.outerHTML = editModalSave.outerHTML
+        modal.classList.toggle('open')
+    }
+
+    saveEditedTodoItemText (textElement, editText) {
+        const isTodoInputEmpty = this.isTodoInputEmpty(editModalInput)
+        this.highlightingForInputs(isTodoInputEmpty, editModalInput)
+
+        if(!isTodoInputEmpty) {
+            textElement.innerText = editText
+            editModalSave.outerHTML = editModalSave.outerHTML
+            this.toggleEditModal()
+        }
+    }
+
+    setTodoItemTextToEditModal(e) {
+
+        if (e.target.name === "edit") {
+            const textElement = e.target.closest('.todo-item').querySelector('.todo-text')
+
+            editModalInput.value = textElement.innerText
+            this.toggleEditModal()
+            editModalSave.addEventListener('click', () =>
+                this.saveEditedTodoItemText(textElement, editModalInput.value)
+            )
+        }
+    }
 }
