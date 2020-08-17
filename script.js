@@ -30,7 +30,6 @@ function saveModalData() {
 }
 
 function closeModalWhenPressEscape(e) {
-
     if (e.key === "Escape") {
         const modal = document.querySelector(".modal-holder")
 
@@ -48,7 +47,6 @@ function hasNotSpecialSymbols(e) {
 }
 
 function sendTodoDataWhenPressEnter(e) {
-
     if (e.key === "Enter") {
         todo.addTodoItem(addTodo)
         addTodo.value = ''

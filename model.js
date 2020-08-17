@@ -1,6 +1,7 @@
 export class Todo {
     constructor() {
         this.setTodoItemTextToEditModal = this.setTodoItemTextToEditModal.bind(this)
+        this.toggleEditModal = this.toggleEditModal.bind(this)
     }
 
     isDataEmpty(dateInput) {
@@ -55,15 +56,19 @@ export class Todo {
     todoToHTML({todoInputVal, startDateInputVal, endDateInputVal}) {
         const todoListBlock = document.querySelector('.todo-list')
         const li = document.createElement('li')
-        li.classList.add('todo-item')
 
+        li.classList.add('todo-item')
         li.innerHTML = `
             <input type="checkbox">
             <div class="todo-content-holder">
                 <span class="todo-text">${todoInputVal}</span>
                 <div class="data-holder">
-                    <span>Start: ${startDateInputVal}</span>
-                    <span>Finish: ${endDateInputVal}</span>
+                    <sapn>Start: 
+                        <span class="start-date">${startDateInputVal}</span>
+                    </sapn>
+                    <span>Finish: 
+                        <span class="end-date">${endDateInputVal}</span>
+                    </span>
                 </div>
             </div>
             <div class="buttons-holder">
@@ -96,6 +101,12 @@ export class Todo {
         }
     }
 
+    cleaningInputs (elems) {
+        elems.forEach(element => {
+            element.value = ""
+        })
+    }
+
     addTodoWithOptions({todoInput, startDateInput, endDateInput}) {
         let [
             todoInputVal,
@@ -107,15 +118,13 @@ export class Todo {
         endDateInputVal = this.formatDate(endDateInputVal)
 
         const modalData = {todoInputVal, startDateInputVal, endDateInputVal}
+        const elemsArray = [todoInput, startDateInput, endDateInput]
 
         this.todoToHTML(modalData)
-        todoInput.value = ''
-        startDateInput.value = ''
-        endDateInput.value = ''
+        this.cleaningInputs(elemsArray)
     }
 
     findAndMarkTodo(e) {
-
         if (e.target.type === "checkbox") {
             const textBlock = e.target.parentElement.querySelector('.todo-text')
 
@@ -133,31 +142,51 @@ export class Todo {
     toggleEditModal() {
         const modal = document.querySelector(".edit-modal-holder")
 
-        editModalSave.outerHTML = editModalSave.outerHTML
+        editModalSave.removeEventListener('click', this.handlerEdit)
         modal.classList.toggle('open')
     }
 
-    saveEditedTodoItemText (textElement, editText) {
-        const isTodoInputEmpty = this.isTodoInputEmpty(editModalInput)
-        this.highlightingForInputs(isTodoInputEmpty, editModalInput)
+    saveEditedTodoItemText ({todoInput, textElement,  startDateInput,
+                                starDateElement,  endDateInput, endDateElement}) {
+        const editElements = {todoInput, startDateInput, endDateInput}
 
-        if(!isTodoInputEmpty) {
-            textElement.innerText = editText
-            editModalSave.outerHTML = editModalSave.outerHTML
+        if(this.isFormModalValid(editElements)) {
+            textElement.innerText = todoInput.value
+            starDateElement.innerText = this.formatDate(startDateInput.value)
+            endDateElement.innerText = this.formatDate(endDateInput.value)
             this.toggleEditModal()
         }
     }
 
-    setTodoItemTextToEditModal(e) {
+    formatDateToInput (date) {
+        return date.textContent.split('.').reverse().join('-')
+    }
 
+    setTodoItemTextToEditModal(e) {
         if (e.target.name === "edit") {
             const textElement = e.target.closest('.todo-item').querySelector('.todo-text')
+            const starDateElement = e.target.closest('.todo-item').querySelector('.start-date')
+            const endDateElement = e.target.closest('.todo-item').querySelector('.end-date')
 
             editModalInput.value = textElement.innerText
+            editModalStartDate.value = this.formatDateToInput(starDateElement)
+            editModalEndDate.value = this.formatDateToInput(endDateElement)
+
+            const editElements = {
+                todoInput: editModalInput,
+                textElement,
+                startDateInput: editModalStartDate,
+                starDateElement,
+                endDateInput: editModalEndDate,
+                endDateElement,
+            }
+
+            function closureTodoItemData () {
+                this.saveEditedTodoItemText(editElements)
+            }
+            this.handlerEdit = closureTodoItemData.bind(this)
             this.toggleEditModal()
-            editModalSave.addEventListener('click', () =>
-                this.saveEditedTodoItemText(textElement, editModalInput.value)
-            )
+            editModalSave.addEventListener('click', this.handlerEdit)
         }
     }
 }

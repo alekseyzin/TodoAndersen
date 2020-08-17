@@ -175,17 +175,17 @@ ul {
 
 /* Modal edit START*/
 
-.edit-modal-holder .modal-input {
-    display: flex;
-    flex-direction: column;
-}
+/*.edit-modal-holder .modal-input {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
 
-.edit-modal-input {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0 0 10px 0;
-}
+/*.edit-modal-input {*/
+/*    width: 100%;*/
+/*    box-sizing: border-box;*/
+/*    margin: 0 0 10px 0;*/
+/*}*/
 
-.edit-buttons-holder {
+/*.edit-buttons-holder {*/
 
-}
+/*}*/
