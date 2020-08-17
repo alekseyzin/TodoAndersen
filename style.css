@@ -68,14 +68,54 @@ ul {
     
 }
 
+.buttons-holder {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+.delete-todo, .edit-todo {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: none;
+    padding: 0;
+    margin-bottom: 5px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+
+.fa-edit::before {
+    font-size: 17px;
+    color: darkgreen;
+}
+
+.delete-todo::before, .delete-todo::after {
+    content: '';
+    position: absolute;
+    background-color: #ff000073;
+    height: 1px;
+    width: 100%;
+    left: 0;
+}
+
+.delete-todo::before {
+    transform: rotate(45deg);
+}
+
+.delete-todo::after {
+    transform: rotate(-45deg);
+}
+
 .mark {
     text-decoration: line-through;
     color: gray;
 }
 
-/* Modal */
+/* Modal with options START*/
 
-.modal-holder {
+.modal-holder, .edit-modal-holder {
     display: none;
     position: fixed;
     overflow: auto;
@@ -86,11 +126,11 @@ ul {
     background-color: rgba(0,0,0,0.5);
 }
 
-.modal-holder.open {
+.modal-holder.open, .edit-modal-holder.open {
     display: block;
 }
 
-.modal-holder .modal-input {
+.modal-input {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -100,6 +140,8 @@ ul {
     border-radius: 2px;
     min-width: 500px;
 }
+
+
 
 .modal-text-holder {
     width: 100%;
@@ -128,3 +170,22 @@ ul {
     border: red 1px solid;
     background-color: #ff00003d;
 }
+
+/* Modal with options End*/
+
+/* Modal edit START*/
+
+/*.edit-modal-holder .modal-input {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.edit-modal-input {*/
+/*    width: 100%;*/
+/*    box-sizing: border-box;*/
+/*    margin: 0 0 10px 0;*/
+/*}*/
+
+/*.edit-buttons-holder {*/
+
+/*}*/

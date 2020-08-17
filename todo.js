@@ -53,14 +53,23 @@ export class Todo {
         const todoListBlock = document.querySelector('.todo-list')
         const li = document.createElement('li')
 
+        li.classList.add('todo-item')
         li.innerHTML = `
             <input type="checkbox">
             <div class="todo-content-holder">
                 <span class="todo-text">${todoInputVal}</span>
                 <div class="data-holder">
-                    <span>Start: ${startDateInputVal}</span>
-                    <span>Finish: ${endDateInputVal}</span>
+                    <sapn>Start: 
+                        <span class="start-date">${startDateInputVal}</span>
+                    </sapn>
+                    <span>Finish: 
+                        <span class="end-date">${endDateInputVal}</span>
+                    </span>
                 </div>
+            </div>
+            <div class="buttons-holder">
+                <button class="delete-todo" name="delete"></button>
+                <button id="openEditModal" class="edit-todo far fa-edit" name="edit"></button>
             </div>
         `
         todoListBlock.appendChild(li)
@@ -69,8 +78,8 @@ export class Todo {
     getDateObject() {
 
         return {
-            dateCreate: new Date().toLocaleDateString(),
-            dateEnd: new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()
+            startDateInputVal: new Date().toLocaleDateString(),
+            endDateInputVal: new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()
         }
     }
 
@@ -88,26 +97,36 @@ export class Todo {
         }
     }
 
-    addTodoWithOptions({todoInput, startDateInput, endDateInput}) {
-        let [
-            todoInputVal,
-            startDateInputVal,
-            endDateInputVal
-        ] = [todoInput.value, startDateInput.value, endDateInput.value]
+    cleaningInputs(elems) {
+        elems.forEach(element => {
+            element.value = ""
+        })
+    }
 
-        startDateInputVal = this.formatDate(startDateInputVal)
-        endDateInputVal = this.formatDate(endDateInputVal)
+    addTodoWithOptions({modal, todoInput, startDateInput, endDateInput}) {
+        const elemsObj = {todoInput, startDateInput, endDateInput}
 
-        const modalData = {todoInputVal, startDateInputVal, endDateInputVal}
+        if (this.isFormModalValid(elemsObj)) {
+            let [
+                todoInputVal,
+                startDateInputVal,
+                endDateInputVal
+            ] = [todoInput.value, startDateInput.value, endDateInput.value]
 
-        this.todoToHTML(modalData)
-        todoInput.value = ''
-        startDateInput.value = ''
-        endDateInput.value = ''
+            startDateInputVal = this.formatDate(startDateInputVal)
+            endDateInputVal = this.formatDate(endDateInputVal)
+
+            const modalData = {todoInputVal, startDateInputVal, endDateInputVal}
+            const elemsArray = [todoInput, startDateInput, endDateInput]
+
+            this.todoToHTML(modalData)
+            this.cleaningInputs(elemsArray)
+            modal.toggleModal()
+        }
+
     }
 
     findAndMarkTodo(e) {
-
         if (e.target.type === "checkbox") {
             const textBlock = e.target.parentElement.querySelector('.todo-text')
 
@@ -115,4 +134,24 @@ export class Todo {
         }
     }
 
+    deleteTodoItem(e) {
+
+        if (e.target.name === "delete") {
+            e.target.closest('.todo-item').remove()
+        }
+    }
+
+    saveEditedTodoItemData({
+                               modal, todoInput, textElement, startDateInput,
+                               starDateElement, endDateInput, endDateElement
+                           }) {
+        const editElements = {todoInput, startDateInput, endDateInput}
+
+        if (this.isFormModalValid(editElements)) {
+            textElement.innerText = todoInput.value
+            starDateElement.innerText = this.formatDate(startDateInput.value)
+            endDateElement.innerText = this.formatDate(endDateInput.value)
+            modal.toggleEditModal()
+        }
+    }
 }

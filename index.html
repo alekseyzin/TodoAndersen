@@ -6,36 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/46b8ca2853.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="todo-holder">
-        <div class="todo">
-            <h1>Todo List</h1>
-            <div class="todo-list-holder">
-                <ul class="todo-list" id="todoList">
-                </ul>
-            </div>
-            <div class="todo-add-holder">
-                <input type="text" id="addTodo" placeholder="Your Todo">
-                <button id="openModalButton">+</button>
-            </div>
-        </div>
-        <div class="modal-holder">
-            <div class="modal-input">
-                <div class="modal-text-holder">
-                    <label for="modalInputText">Text: <input type="text" id="modalInputText"></label>
-                </div>
-                <label for="modalInputStartDate">Start date: <input type="date" id="modalInputStartDate"></label>
-                <label for="modalInputEndDate">End date: <input type="date" id="modalInputEndDate"></label>
-                <div class="modal-buttons-holder">
-                    <button id="saveModal">Save</button>
-                    <button id="closeModal">Cancel</button>
+<div class="todo-holder">
+    <div class="todo">
+        <h1>Todo List</h1>
+        <div class="todo-list-holder">
+            <ul class="todo-list" id="todoList">
+            </ul>
+            <div class="edit-modal-holder">
+                <div class="modal-input">
+                    <div class="modal-text-holder">
+                        <input class="edit-modal-input" type="text" id="editModalInput">
+                    </div>
+                    <label for="editModalStartDate">Start date: <input type="date" id="editModalStartDate"></label>
+                    <label for="editModalEndDate">End date: <input type="date" id="editModalEndDate"></label>
+                    <div class="modal-buttons-holder">
+                        <button id="editModalSave">Save</button>
+                        <button id="editModalCancel">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <div class="todo-add-holder">
+            <input type="text" id="addTodo" placeholder="Your Todo">
+            <button id="openModalButton">+</button>
+        </div>
     </div>
-    <script src="./script.js" type="module"></script>
+    <div class="modal-holder">
+        <div class="modal-input">
+            <div class="modal-text-holder">
+                <label for="modalInputText">Text: <input type="text" id="modalInputText"></label>
+            </div>
+            <label for="modalInputStartDate">Start date: <input type="date" id="modalInputStartDate"></label>
+            <label for="modalInputEndDate">End date: <input type="date" id="modalInputEndDate"></label>
+            <div class="modal-buttons-holder">
+                <button id="saveModal">Save</button>
+                <button id="closeModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="./script.js" type="module"></script>
 </body>
 </html>

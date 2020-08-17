@@ -1,42 +1,18 @@
-import {Todo} from "./model.js";
+import {Todo} from "./todo.js";
+import {Modal} from './modal.js'
 
 const todo = new Todo()
+const modal = new Modal()
 
-function deleteHighlightingModalInputs() {
-    modalInputText.classList.remove('invalid')
-    modalInputStartDate.classList.remove('invalid')
-    modalInputEndDate.classList.remove('invalid')
-}
-
-function toggleModal() {
-    const modal = document.querySelector(".modal-holder")
-
-    modal.classList.toggle('open')
-    deleteHighlightingModalInputs()
-}
-
-function saveModalData() {
-    const modalData = {
+function sendModalData() {
+    const modalElems = {
+        modal: modal,
         todoInput: modalInputText,
         startDateInput: modalInputStartDate,
         endDateInput: modalInputEndDate
     }
 
-    if (todo.isFormModalValid(modalData)) {
-        todo.addTodoWithOptions(modalData)
-
-        toggleModal()
-    }
-}
-
-function closeModalWhenPressEscape(e) {
-
-    if (e.key === "Escape") {
-        const modal = document.querySelector(".modal-holder")
-
-        modal.classList.remove('open')
-        deleteHighlightingModalInputs()
-    }
+    todo.addTodoWithOptions(modalElems)
 }
 
 function hasNotSpecialSymbols(e) {
@@ -48,18 +24,24 @@ function hasNotSpecialSymbols(e) {
 }
 
 function sendTodoDataWhenPressEnter(e) {
-
     if (e.key === "Enter") {
         todo.addTodoItem(addTodo)
         addTodo.value = ''
     }
 }
 
+function handlerSetTodoItemDataToEditModal(e) {
+    modal.setTodoItemDataToEditModal(todo, e)
+}
+
 addTodo.addEventListener('keydown', hasNotSpecialSymbols)
 addTodo.addEventListener('keydown', sendTodoDataWhenPressEnter)
 modalInputText.addEventListener('keydown', hasNotSpecialSymbols)
-document.addEventListener('keydown', closeModalWhenPressEscape)
-openModalButton.addEventListener('click', toggleModal)
-closeModal.addEventListener('click', toggleModal)
-saveModal.addEventListener('click', saveModalData)
+document.addEventListener('keydown', modal.closeModalWhenPressEscape)
+openModalButton.addEventListener('click', modal.toggleModal)
+closeModal.addEventListener('click', modal.toggleModal)
+saveModal.addEventListener('click', sendModalData)
 todoList.addEventListener('click', todo.findAndMarkTodo)
+todoList.addEventListener('click', todo.deleteTodoItem)
+todoList.addEventListener('click', handlerSetTodoItemDataToEditModal)
+editModalCancel.addEventListener('click', modal.toggleEditModal)
