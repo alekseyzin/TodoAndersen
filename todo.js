@@ -154,4 +154,50 @@ export class Todo {
             modal.toggleEditModal()
         }
     }
+
+    isCheckboxChecked(elem) {
+        return elem.querySelector('input[type="checkbox"]').checked
+    }
+
+    getAllLi() {
+        return document.querySelectorAll('li')
+    }
+
+    getAllTodos = () => {
+        this.getAllLi().forEach(elem => {
+            elem.style.display = ""
+        })
+    }
+
+    getActiveTodos = () => {
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.style.display = "none"
+            } else {
+                elem.style.display = ""
+            }
+        })
+    }
+
+    getCompletedTodos = () => {
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.style.display = ""
+            } else {
+                elem.style.display = "none"
+            }
+        })
+    }
+
+    clearCompletedTodos = () => {
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.remove()
+            }
+        })
+    }
+
 }
