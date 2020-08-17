@@ -1,4 +1,5 @@
-import {Todo, Modal} from "./model.js";
+import {Todo} from "./todo.js";
+import {Modal} from './modal.js'
 
 const todo = new Todo()
 const modal = new Modal()
