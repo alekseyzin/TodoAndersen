@@ -214,7 +214,7 @@ export class Todo {
     }
 
     getEndDateFromTodo (elem) {
-        return new Date(this.unFormatDate(elem.querySelector('.end-date').textContent))
+        return this.unFormatDate(elem.querySelector('.end-date').textContent)
     }
 
     setElemsToTodoList (element) {
@@ -243,5 +243,27 @@ export class Todo {
         })
 
         sortItems.forEach(this.setElemsToTodoList)
+    }
+
+    filterByDate = (e) => {
+        this.getAllLi().forEach(element => {
+
+            if (this.getEndDateFromTodo(element) !== e.target.value) {
+                element.style.display = "none"
+            } else {
+                element.style.display = ""
+            }
+        })
+    }
+
+    filterByText = (e) => {
+        this.getAllLi().forEach(element => {
+
+            if (this.getTextFromTodo(element).includes(e.target.value)) {
+                element.style.display = ""
+            } else {
+                element.style.display = "none"
+            }
+        })
     }
 }

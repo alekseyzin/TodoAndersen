@@ -41,10 +41,23 @@
             <input type="text" id="addTodo" placeholder="Your Todo">
             <button id="openModalButton">+</button>
         </div>
-        <div class="sort-buttons-holder">
-            <button id="sortByDateButton">Sort by date</button>
-            <button id="sortByTextButton">Sort by text</button>
+        <div class="sort-filter-sections">
+            <div class="sort-section">
+                <h3>Sort section</h3>
+                <div class="">
+                    <button id="sortByDateButton">Sort by date</button>
+                    <button id="sortByTextButton">Sort by text</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h3>Filter section</h3>
+                <div>
+                    <label for="filterByTextInput">Filter by text <input id="filterByTextInput" type="text"></label>
+                    <label for="filterByDateInput">Filter by date <input id="filterByDateInput" type="date"></label>
+                </div>
+            </div>
         </div>
+
     </div>
     <div class="modal-holder">
         <div class="modal-input">

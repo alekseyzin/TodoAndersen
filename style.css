@@ -128,14 +128,19 @@ ul {
     color: gray;
 }
 
-.sort-buttons-holder {
+.sort-filter-sections {
     display: none;
     justify-content: center;
+    flex-direction: column;
     margin-top: 10px;
 }
 
-.sort-buttons-holder.open {
+.sort-filter-sections.open {
     display: flex;
+}
+
+.sort-section, .filter-section {
+    text-align: center;
 }
 
 /* Modal with options START*/
