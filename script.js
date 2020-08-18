@@ -34,6 +34,10 @@ function handlerSetTodoItemDataToEditModal(e) {
     modal.setTodoItemDataToEditModal(todo, e)
 }
 
+function toggleSortButtons () {
+    document.body.querySelector('.sort-buttons-holder').classList.toggle('open')
+}
+
 addTodo.addEventListener('keydown', hasNotSpecialSymbols)
 addTodo.addEventListener('keydown', sendTodoDataWhenPressEnter)
 modalInputText.addEventListener('keydown', hasNotSpecialSymbols)
@@ -49,3 +53,6 @@ activeTodoButton.addEventListener('click', todo.getActiveTodos)
 allTodoButton.addEventListener('click', todo.getAllTodos)
 completedTodoButton.addEventListener('click', todo.getCompletedTodos)
 clearCompletedTodoButton.addEventListener('click', todo.clearCompletedTodos)
+sortButtons.addEventListener('click', toggleSortButtons)
+sortByTextButton.addEventListener('click', todo.sortByText)
+sortByDateButton.addEventListener('click', todo.sortByDate)
