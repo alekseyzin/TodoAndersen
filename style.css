@@ -79,6 +79,10 @@ ul {
     
 }
 
+.todo-add-holder input {
+    margin: 0 10px;
+}
+
 .buttons-holder {
     display: flex;
     flex-direction: column;
@@ -124,6 +128,16 @@ ul {
     color: gray;
 }
 
+.sort-buttons-holder {
+    display: none;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sort-buttons-holder.open {
+    display: flex;
+}
+
 /* Modal with options START*/
 
 .modal-holder, .edit-modal-holder {
@@ -137,7 +151,7 @@ ul {
     background-color: rgba(0,0,0,0.5);
 }
 
-.modal-holder.open, .edit-modal-holder.open {
+.open {
     display: block;
 }
 
