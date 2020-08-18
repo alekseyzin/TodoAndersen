@@ -128,9 +128,11 @@ export class Todo {
 
     findAndMarkTodo(e) {
         if (e.target.type === "checkbox") {
-            const textBlock = e.target.parentElement.querySelector('.todo-text')
+            const todoItem = e.target.parentElement
+            const textBlock = todoItem.querySelector('.todo-text')
 
-            textBlock.classList.toggle('mark')
+            textBlock.classList.toggle('mark');
+            activeTodoButton.name === 'active' && (todoItem.style.display = "none")
         }
     }
 
@@ -164,12 +166,14 @@ export class Todo {
     }
 
     getAllTodos = () => {
+        activeTodoButton.name = ""
         this.getAllLi().forEach(elem => {
             elem.style.display = ""
         })
     }
 
-    getActiveTodos = () => {
+    getActiveTodos = (e) => {
+        e.target.name = "active"
         this.getAllLi().forEach(elem => {
 
             if (this.isCheckboxChecked(elem)) {
@@ -181,6 +185,7 @@ export class Todo {
     }
 
     getCompletedTodos = () => {
+        activeTodoButton.name = ""
         this.getAllLi().forEach(elem => {
 
             if (this.isCheckboxChecked(elem)) {
