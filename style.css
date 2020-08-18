@@ -62,6 +62,17 @@ ul {
     width: 100%;
 }
 
+.control-buttons-holder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.control-buttons-holder button {
+    margin: 0 5px;
+}
+
 .todo-add-holder {
     display: flex;
     justify-content: center;
@@ -170,22 +181,3 @@ ul {
     border: red 1px solid;
     background-color: #ff00003d;
 }
-
-/* Modal with options End*/
-
-/* Modal edit START*/
-
-/*.edit-modal-holder .modal-input {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-
-/*.edit-modal-input {*/
-/*    width: 100%;*/
-/*    box-sizing: border-box;*/
-/*    margin: 0 0 10px 0;*/
-/*}*/
-
-/*.edit-buttons-holder {*/
-
-/*}*/

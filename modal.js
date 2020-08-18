@@ -6,17 +6,18 @@ export class Modal {
         this.toggleModal = this.toggleModal.bind(this)
     }
 
-    deleteHighlightingModalInputs() {
-        modalInputText.classList.remove('invalid')
-        modalInputStartDate.classList.remove('invalid')
-        modalInputEndDate.classList.remove('invalid')
+    deleteHighlightingModalInputs(elemsArray) {
+        elemsArray.forEach(element => {
+            element.classList.remove('invalid')
+        })
     }
 
     toggleModal() {
         const modal = document.querySelector(".modal-holder")
+        const elemsArray = [modalInputText, modalInputStartDate, modalInputEndDate]
 
         modal.classList.toggle('open')
-        this.deleteHighlightingModalInputs()
+        this.deleteHighlightingModalInputs(elemsArray)
     }
 
     closeModalWhenPressEscape(e) {
@@ -32,8 +33,10 @@ export class Modal {
 
     toggleEditModal() {
         const modal = document.querySelector(".edit-modal-holder")
+        const  elemsArray = [editModalInput, editModalStartDate, editModalEndDate]
 
         editModalSave.removeEventListener('click', this.handlerEdit)
+        this.deleteHighlightingModalInputs(elemsArray)
         modal.classList.toggle('open')
     }
 

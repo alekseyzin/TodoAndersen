@@ -128,9 +128,11 @@ export class Todo {
 
     findAndMarkTodo(e) {
         if (e.target.type === "checkbox") {
-            const textBlock = e.target.parentElement.querySelector('.todo-text')
+            const todoItem = e.target.parentElement
+            const textBlock = todoItem.querySelector('.todo-text')
 
-            textBlock.classList.toggle('mark')
+            textBlock.classList.toggle('mark');
+            activeTodoButton.name === 'active' && (todoItem.style.display = "none")
         }
     }
 
@@ -154,4 +156,53 @@ export class Todo {
             modal.toggleEditModal()
         }
     }
+
+    isCheckboxChecked(elem) {
+        return elem.querySelector('input[type="checkbox"]').checked
+    }
+
+    getAllLi() {
+        return document.querySelectorAll('li')
+    }
+
+    getAllTodos = () => {
+        activeTodoButton.name = ""
+        this.getAllLi().forEach(elem => {
+            elem.style.display = ""
+        })
+    }
+
+    getActiveTodos = (e) => {
+        e.target.name = "active"
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.style.display = "none"
+            } else {
+                elem.style.display = ""
+            }
+        })
+    }
+
+    getCompletedTodos = () => {
+        activeTodoButton.name = ""
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.style.display = ""
+            } else {
+                elem.style.display = "none"
+            }
+        })
+    }
+
+    clearCompletedTodos = () => {
+        this.getAllLi().forEach(elem => {
+
+            if (this.isCheckboxChecked(elem)) {
+                elem.remove()
+            }
+        })
+    }
+
 }
