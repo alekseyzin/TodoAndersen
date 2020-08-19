@@ -49,10 +49,6 @@ export class Todo {
         return date.split("-").reverse().join(".")
     }
 
-    unFormatDate(date) {
-        return date.split(".").reverse().join("-")
-    }
-
     todoToHTML({todoInputVal, startDateInputVal, endDateInputVal}) {
         const todoListBlock = document.querySelector('.todo-list')
         const li = document.createElement('li')
@@ -141,7 +137,6 @@ export class Todo {
     }
 
     deleteTodoItem(e) {
-
         if (e.target.name === "delete") {
             e.target.closest('.todo-item').remove()
         }
@@ -207,41 +202,5 @@ export class Todo {
                 elem.remove()
             }
         })
-    }
-
-    getTextFromTodo (elem) {
-        return elem.querySelector('.todo-text').textContent
-    }
-
-    getEndDateFromTodo (elem) {
-        return new Date(this.unFormatDate(elem.querySelector('.end-date').textContent))
-    }
-
-    setElemsToTodoList (element) {
-        todoList.appendChild(element)
-    }
-
-    sortByText = () => {
-        const sortItems = Array.from(this.getAllLi()).sort((a, b) => {
-
-            if (this.getTextFromTodo(a) > this.getTextFromTodo(b)) return 1
-
-            if (this.getTextFromTodo(a) < this.getTextFromTodo(b)) return -1
-            return  0
-        })
-
-        sortItems.forEach(this.setElemsToTodoList)
-    }
-
-    sortByDate = () => {
-        const sortItems = Array.from(this.getAllLi()).sort((a, b) => {
-
-            if (this.getEndDateFromTodo(a) > this.getEndDateFromTodo(b)) return 1
-
-            if (this.getEndDateFromTodo(a) < this.getEndDateFromTodo(b)) return -1
-            return  0
-        })
-
-        sortItems.forEach(this.setElemsToTodoList)
     }
 }

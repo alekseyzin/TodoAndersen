@@ -1,6 +1,10 @@
 import {Todo} from "./todo.js";
 import {Modal} from './modal.js'
+import {Filter} from './filter.js'
+import {Sort} from './sort.js'
 
+const sort = new Sort()
+const filter = new Filter()
 const todo = new Todo()
 const modal = new Modal()
 
@@ -35,7 +39,41 @@ function handlerSetTodoItemDataToEditModal(e) {
 }
 
 function toggleSortButtons () {
-    document.body.querySelector('.sort-buttons-holder').classList.toggle('open')
+    document.body.querySelector('.sort-filter-sections').classList.toggle('open')
+}
+
+function handlerSortByText (e) {
+    const data = {
+        parentElement: todoList,
+        eventElem: e.target,
+        todoItemTag: 'li',
+        textItemClass: '.todo-text'
+    }
+
+    sort.sortByText(data)
+}
+
+function handlerSortByData (e) {
+    const data = {
+        parentElement: todoList,
+        eventElem: e.target,
+        todoItemTag: 'li',
+        textItemClass: '.end-date'
+    }
+
+    sort.sortByDate(data)
+}
+
+function handlerSortByTextAndDate () {
+    const data = {
+        todoItemTag: 'li',
+        textInputElem: filterByTextInput,
+        textItemClass: '.todo-text',
+        dateInputElem: filterByDateInput,
+        dateItemClass: '.end-date'
+    }
+
+    filter.filterByTextAndDate(data)
 }
 
 addTodo.addEventListener('keydown', hasNotSpecialSymbols)
@@ -54,5 +92,7 @@ allTodoButton.addEventListener('click', todo.getAllTodos)
 completedTodoButton.addEventListener('click', todo.getCompletedTodos)
 clearCompletedTodoButton.addEventListener('click', todo.clearCompletedTodos)
 sortButtons.addEventListener('click', toggleSortButtons)
-sortByTextButton.addEventListener('click', todo.sortByText)
-sortByDateButton.addEventListener('click', todo.sortByDate)
+sortByTextButton.addEventListener('click', handlerSortByText)
+sortByDateButton.addEventListener('click', handlerSortByData)
+filterByDateInput.addEventListener('change', handlerSortByTextAndDate)
+filterByTextInput.addEventListener('keyup', handlerSortByTextAndDate)
