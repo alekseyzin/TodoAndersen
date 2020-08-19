@@ -4,6 +4,7 @@ export class Modal {
         this.setTodoItemDataToEditModal = this.setTodoItemDataToEditModal.bind(this)
         this.toggleEditModal = this.toggleEditModal.bind(this)
         this.toggleModal = this.toggleModal.bind(this)
+        this.closeModalWhenPressEscape = this.closeModalWhenPressEscape(this)
     }
 
     deleteHighlightingModalInputs(elemsArray) {
@@ -33,7 +34,7 @@ export class Modal {
 
     toggleEditModal() {
         const modal = document.querySelector(".edit-modal-holder")
-        const  elemsArray = [editModalInput, editModalStartDate, editModalEndDate]
+        const elemsArray = [editModalInput, editModalStartDate, editModalEndDate]
 
         editModalSave.removeEventListener('click', this.handlerEdit)
         this.deleteHighlightingModalInputs(elemsArray)
